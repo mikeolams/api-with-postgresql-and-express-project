@@ -1,5 +1,13 @@
 import express, {Request, Response} from 'express'
 import {Product, ProductStore} from '../models/product'
+import cors from 'cors'
+
+
+const corsOptions = {
+	origin:'http://someotherdomain.com',
+	optionsSuccessStatus: 200 //some legacy browsers (IE11,various)
+}
+
 
 const store = new ProductStore()
 

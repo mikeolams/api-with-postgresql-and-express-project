@@ -33,13 +33,13 @@ async show(id:string): Promise<User[]> {
             throw new Error (` Could not list these users: ${err}`)}
         }
 
-async create(firstName: string, lastName: string, password: string ): Promise<User> {
+async create(u:User ): Promise<User> {
     try {
         const sql = 'INSERT INTO users ( first_name, last_name, password) VALUES($1,$2,$3)'
         //@ts-ignore
         const conn = await Client.connect()
 
-        const result = await conn.query(sql, [firstName, lastName,password])
+        const result = await conn.query(sql, [u.firstName, u.lastName,u.password])
 
         const product = result.rows[0]
 
@@ -48,7 +48,7 @@ async create(firstName: string, lastName: string, password: string ): Promise<Us
         return product
     
     }catch (err) {
-        throw new Error (` Could not add user ${firstName}: ${err}`)}
+        throw new Error (` Could not add user ${u.firstName}: ${err}`)}
     }
     
 }
