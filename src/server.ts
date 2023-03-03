@@ -1,14 +1,24 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
+import product_routes from './handlers/productsRoute'
 
 const app: express.Application = express()
 const address: string = "0.0.0.0:3000"
 
+const corsOptions = {
+	origin:'http://someotherdomain.com',
+	optionsSuccessStatus: 200 //some legacy browsers (IE11,various)
+}
+
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
 
-app.get('/', function (req: Request, res: Response) {
+app.get('/', cors(corsOptions), function (req: Request, res: Response, next) {
     res.send('Hello World!')
 })
+
+product_routes(app)
 
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)
