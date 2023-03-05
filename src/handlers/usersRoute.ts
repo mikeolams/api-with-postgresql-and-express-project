@@ -11,7 +11,8 @@ const index = async (_req: Request, res:Response) => {
 }
 
 const show = async (req: Request, res: Response) => {
-    const users = await store.show(req.params.id)
+    const id = parseInt(req.params.id)
+    const users = await store.show(id)
     res.json(users)
  }
 
