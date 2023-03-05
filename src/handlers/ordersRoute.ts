@@ -13,16 +13,7 @@ const index = async (req: Request, res:Response) => {
 
 
     try {
-        const order: Order = {
-            id: parseInt(req.params.id),
-            productId: req.body.productId,
-            userId:req.body.userId,
-            productQuantityOrder: req.body.productQuantityOrder,
-            orderStatus: req.body.orderStatus
-
-        }
-
-        const orders = await store.index(order.id)
+        const orders = await store.index(userId)
         res.json(orders)
     } catch(err) {
         res.status(400)
@@ -32,17 +23,58 @@ const index = async (req: Request, res:Response) => {
    
 
 const showCompleteOrder = async (req: Request, res: Response) => {
-    const orders = await store.completeUserOrders(req.params.id)
+    const orderId: number = parseInt(req.params.id)
+    const userId: number = parseInt(req.params.id)
+    // const productId: number = parseInt(req.body.productId)
+
+    const orders = await store.completeUserOrders(userId)
     res.json(orders)
+ }
+
+//  const create = async (req: Request, res: Response) => {
+//     try {
+//         const order: Order = {
+//             id: req.body.id,
+//             productId: req.body.productId,
+//             userId:req.body.userId,
+//             productQuantityOrder: req.body.productQuantityOrder,
+//             orderStatus:req.body.orderStatus
+//         }
+
+//         const newOrder = await store.createOrder(order)
+//         res.json(newOrder)
+//     } catch(err) {
+//         res.status(400)
+//         res.json(err)
+//     }
+// }
+
+const addOrder = async (req: Request, res: Response) => {
+         try {
+                const order: Order = {
+                    id: parseInt(req.body.id),
+                    productId: parseInt(req.body.productId),
+                    userId:req.body.userId,
+                    productQuantityOrder: req.body.productQuantityOrder,
+                    orderStatus:req.body.orderStatus
+                }
+        
+                const newOrder = await store.addOrder(order.productQuantityOrder,order.orderStatus, order.productId, order.userId,order.id )
+                res.json(newOrder)
+            } catch(err) {
+                res.status(400)
+                res.json(err)
+            }
  }
 
  
  
 
 const order_routes = (app: express.Application) =>{
-	app.get('/users', index)
-    app.get('/users/:id', show)
-    app.post('/products', create)
+	app.get('/orders/user/:id', index)
+    app.get('/orders/:id', showCompleteOrder)
+    app.post('/orders', addOrder)
+    // app.post('/orders', create)
 }
 
 export default order_routes
