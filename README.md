@@ -1,5 +1,48 @@
 # Storefront Backend Project
 
+## Getting Started with Completed project 
+
+- To get started, run `yarn` in your terminal at the project root.
+- Start your docker container to host the database
+- After installing Docker and Docker Compose
+    - start your docker container to host the database
+    - run docker-compose up
+- Run migrations
+    - db-migrate up
+    - db-migrate down
+- run `yarn start` in your terminal at the project root to start the server 
+- run `yarn watch` in your terminal at the project root to run the watch 
+- run `yarn migrate` in your terminal at the project root to run test migration 
+- Run migrations
+    - db-migrate up
+    - db-migrate down
+- run `yarn test` in your terminal at the project root to run test 
+
+- Any of the endpoints could be test as listed 
+
+## API Endpoints
+#### Products
+- Index 
+- Show
+- Create [token required]
+- [OPTIONAL] Top 5 most popular products 
+- [OPTIONAL] Products by category (args: product category)
+
+#### Users
+- Index [token required]
+- Show [token required]
+- Create N[token required]
+
+#### Orders
+- Current Order by user (args: user id)[token required]
+- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+ 
+
+
+
+
+# Project Instruction to build the complete project
+
 ## Getting Started
 
 This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
