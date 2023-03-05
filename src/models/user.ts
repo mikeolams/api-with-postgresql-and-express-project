@@ -51,7 +51,8 @@ async create(u:User ): Promise<User> {
         const conn = await Client.connect()
 
         const hash = bcrypt.hashSync(
-            u.password + pepper, 
+            u.password + pepper,
+              //@ts-ignore 
             parseInt(saltRounds)
           );
         
@@ -70,8 +71,9 @@ async create(u:User ): Promise<User> {
         }
     }
 
-    async authenticate(u: User): Promise<User | null> {
+    async authenticate(u:User): Promise<User | null> {
         const username = u.firstName
+          //@ts-ignore
         const conn = await Client.connect()
         const sql = 'SELECT password FROM users WHERE first_name=($1)'
     
