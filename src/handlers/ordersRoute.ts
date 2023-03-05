@@ -1,5 +1,6 @@
-import express, {Request, Response} from 'express'
+import express, {Request, Response, NextFunction} from 'express'
 import {Order, OrderStore} from '../models/order'
+var jwt = require('jsonwebtoken');
 
 const store = new OrderStore()
 
@@ -67,13 +68,29 @@ const addOrder = async (req: Request, res: Response) => {
             }
  }
 
+ const verifyAuthToken = (req: Request, res: Response, next:NextFunction) => {
+    try {
+        const authorizationHeader = req.headers.authorization
+          //@ts-ignore
+        const token = authorizationHeader.split(' ')[1]
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+        if(decoded.id !== req.body.id) {
+            throw new Error('User is not authorised for this action!')
+        }
+
+        next()
+    } catch (error) {
+        res.status(401)
+    }
+}
+
  
  
 
 const order_routes = (app: express.Application) =>{
-	app.get('/orders/user/:id', index)
-    app.get('/orders/:id', showCompleteOrder)
-    app.post('/orders', addOrder)
+	app.get('/orders/user/:id',verifyAuthToken, index)
+    app.get('/orders/:id',verifyAuthToken, showCompleteOrder)
+    app.post('/orders',verifyAuthToken, addOrder)
     // app.post('/orders', create)
 }
 
