@@ -22,7 +22,7 @@ async index(userId:number): Promise<Order[]> {
             throw new Error (` Could not list orders: ${err}`)}
         }
 
-async completeUserOrders(userId:Number): Promise<Order[]> {
+async completeUserOrders(userId:number): Promise<Order> {
     try {
              //@ts-ignore
             const conn = await Client.connect()
@@ -34,7 +34,7 @@ async completeUserOrders(userId:Number): Promise<Order[]> {
             throw new Error (` Could not list orders: ${err}`)}
         }
 
-async createOrder(O:Order ): Promise<Order[]> {
+async createOrder(O:Order ): Promise<Order> {
     try {
         const sql = 'INSERT INTO orders ( product_id, product_quantity_order, order_status, user_id) VALUES($1,$2,$3,$4)'
         //@ts-ignore
@@ -52,7 +52,7 @@ async createOrder(O:Order ): Promise<Order[]> {
         throw new Error (` Could not create order ${O.id}: ${err}`)}
     }
 
-async addOrder(productQuantityOrder:number, orderStatus:string, productId:number, userId:number, orderId:number ): Promise<Order[]> {
+async addOrder(orderId:number,productId:number, userId:number, productQuantityOrder:number, orderStatus:string ): Promise<Order> {
 
           // get order to see if it is active
           try {
@@ -74,11 +74,11 @@ async addOrder(productQuantityOrder:number, orderStatus:string, productId:number
           }
 
     try {
-        const sql = 'INSERT INTO orders ( product_quantity_order, order_status, product_id, user_id) VALUES($1,$2,$3)'
+        const sql = 'INSERT INTO orders ( product_id, user_id, product_quantity_order, order_status,) VALUES($1,$2,$3)'
         //@ts-ignore
         const conn = await Client.connect()
         
-        const result = await conn.query(sql, [productQuantityOrder, orderStatus,productId, userId])
+        const result = await conn.query(sql, [productId, userId, productQuantityOrder, orderStatus])
         
         const order = result.rows[0]
         
