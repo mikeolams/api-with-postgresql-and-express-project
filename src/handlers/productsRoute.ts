@@ -1,6 +1,8 @@
-import express, {Request, Response} from 'express'
+import express, {Request, Response, NextFunction} from 'express'
 import {Product, ProductStore} from '../models/product'
 // import cors from 'cors'
+// import jwt from 'jsonwebtoken'
+var jwt = require('jsonwebtoken');
 
 
 // const corsOptions = {
@@ -47,6 +49,22 @@ const show = async (req: Request, res: Response) => {
          res.json(err)
      }
  }
+
+ const verifyAuthToken = (req: Request, res: Response, next:NextFunction) => {
+    try {
+        const authorizationHeader = req.headers.authorization
+        const token = authorizationHeader.split(' ')[1]
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+        if(decoded.id !== req.body.id) {
+            throw new Error('User is not authorised for this action!')
+        }
+
+        next()
+    } catch (error) {
+        res.status(401)
+    }
+}
+ 
  
  
 
@@ -55,7 +73,7 @@ const product_routes = (app: express.Application) =>{
     app.get('/products/:id', show)
     app.get('/products/topfive', topFive)
     app.get('/products/:category', showCategory)
-    app.post('/products', create)
+    app.post('/products',verifyAuthToken,  create)
 }
 
 export default product_routes
