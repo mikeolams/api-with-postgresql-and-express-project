@@ -21,7 +21,7 @@ async index(): Promise<Product[]> {
             throw new Error (` Could not products: ${err}`)}
         }
 
-async show(id:string): Promise<Product[]> {
+async show(id:number): Promise<Product> {
     try {
             //@ts-ignore
             const conn = await Client.connect()
@@ -33,7 +33,7 @@ async show(id:string): Promise<Product[]> {
             throw new Error (` Could not products: ${err}`)}
         }
 
-async showCategory(category:string): Promise<Product[]> {
+async showCategory(category:string): Promise<Product> {
     try {
             //@ts-ignore
             const conn = await Client.connect()
