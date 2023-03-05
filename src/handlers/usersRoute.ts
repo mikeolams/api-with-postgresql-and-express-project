@@ -77,7 +77,7 @@ const show = async (req: Request, res: Response) => {
 const user_routes = (app: express.Application) =>{
 	app.get('/users',verifyAuthToken, index)
     app.get('/users/:id',verifyAuthToken, show)
-    app.post('/users',verifyAuthToken, create)
+    app.post('/user',verifyAuthToken, create)
 }
 
 export default user_routes
