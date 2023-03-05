@@ -11,15 +11,15 @@ describe("Oder Model", () => {
     expect(store.index).toBeDefined();
   });
 
-  it('should have a show method', () => {
+  it('should have a completeUserOrders method', () => {
     expect(store.completeUserOrders).toBeDefined();
   });
 
-  it('should have a create method', () => {
+  it('should have a createOrder method', () => {
     expect(store.createOrder).toBeDefined();
   });
 
-  it('should have a create method', () => {
+  it('should have a addOrder method', () => {
     expect(store.addOrder).toBeDefined();
   });
 
@@ -67,7 +67,7 @@ it('create method should create an Order', async () => {
   });
 
   
-it('create method should create an Order', async () => {
+it('create method should add an Order', async () => {
     const result = await store.addOrder(
          1,
          4,
