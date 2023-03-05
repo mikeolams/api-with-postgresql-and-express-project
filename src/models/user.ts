@@ -10,7 +10,7 @@ const pepper = process.env.BCRYPT_PASSWORD
 
 export type User ={
 // id?: string;
-id: Number;
+id: number;
 firstName:string;
 lastName:string;
 password:string;
@@ -30,7 +30,7 @@ async index(): Promise<User[]> {
             throw new Error (` Could not list users: ${err}`)}
         }
 
-async show(id:string): Promise<User[]> {
+async show(id:number): Promise<User> {
     try {
             //@ts-ignore
             const conn = await Client.connect()
