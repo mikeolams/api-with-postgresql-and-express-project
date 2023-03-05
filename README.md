@@ -10,8 +10,7 @@
 - Run migrations
     - db-migrate up
     - db-migrate down
-- run `yarn start` in your terminal at the project root to start the server 
-- run `yarn watch` in your terminal at the project root to run the watch 
+- run `yarn watch` in your terminal at the project root to run the project
 - run `yarn migrate` in your terminal at the project root to run test migration 
 - Run migrations
     - db-migrate up

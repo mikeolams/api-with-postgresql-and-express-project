@@ -1,4 +1,5 @@
-import dotenv from dotenv
+// import dotenv from dotenv
+var dotenv = require('dotenv');
 import {Pool} from 'pg'
 
 dotenv.config()

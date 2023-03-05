@@ -3,6 +3,7 @@ import bodyParser from 'body-parser'
 // import cors from 'cors'
 import product_routes from './handlers/productsRoute'
 import user_routes from './handlers/usersRoute'
+import order_routes from './handlers/ordersRoute'
 var cors = require('cors');
 
 const app: express.Application = express()
@@ -23,6 +24,8 @@ app.get('/', cors(corsOptions), function (req: Request, res: Response, next) {
 product_routes(app)
 
 user_routes(app)
+
+order_routes(app)
 
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`)
