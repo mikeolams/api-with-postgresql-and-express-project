@@ -53,6 +53,7 @@ const show = async (req: Request, res: Response) => {
  const verifyAuthToken = (req: Request, res: Response, next:NextFunction) => {
     try {
         const authorizationHeader = req.headers.authorization
+          //@ts-ignore
         const token = authorizationHeader.split(' ')[1]
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
         if(decoded.id !== req.body.id) {
