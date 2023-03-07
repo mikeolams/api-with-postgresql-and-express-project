@@ -11,6 +11,10 @@ describe("Oder Model", () => {
     expect(store.index).toBeDefined();
   });
 
+  it('should have an index method', () => {
+    expect(store.show).toBeDefined();
+  });
+
   it('should have a completeUserOrders method', () => {
     expect(store.completeUserOrders).toBeDefined();
   });
@@ -19,12 +23,11 @@ describe("Oder Model", () => {
     expect(store.createOrder).toBeDefined();
   });
 
-  it('should have a addOrder method', () => {
-    expect(store.addOrder).toBeDefined();
-  });
+  it('should have a addProductOrder method', () => {
+    expect(store.addProductOrder).toBeDefined();
+  })
 
-
-it('create method should create an Order', async () => {
+  it('create method should create an Order', async () => {
     const result = await store.createOrder(
       {
         id: 1,
@@ -45,7 +48,7 @@ it('create method should create an Order', async () => {
   });
 
   it('index method should return a list of product orders', async () => {
-    const result = await store.index(id);
+    const result = await store.index();
     expect(result).toEqual([{
         id: 1,
         productId: 4,
@@ -67,13 +70,12 @@ it('create method should create an Order', async () => {
   });
 
   
-it('create method should add an Order', async () => {
-    const result = await store.addOrder(
+it('create method should add an Product order', async () => {
+    const result = await store.addProductOrder(
          1,
          4,
         2,
-        3,
-        'active'  
+        3
   )
     expect(result).toEqual({
         id: 1,
