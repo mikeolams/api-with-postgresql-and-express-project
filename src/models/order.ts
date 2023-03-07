@@ -36,7 +36,7 @@ export class OrderStore {
             }
     
     
-    async addProductOrder(orderId:number,productId:number, userId:number, productQuantityOrder:number ): Promise<OrderProduct> {
+    async addProductOrder(orderId:number,productId:number, userId:number, quantityOrder:number ): Promise<OrderProduct> {
     
               // get order to see if it is active
               try {
@@ -58,11 +58,11 @@ export class OrderStore {
               }
     
         try {
-            const sql = 'INSERT INTO order_products ( order_Id, product_id, user_id, product_quantity_order) VALUES($1,$2,$3)'
+            const sql = 'INSERT INTO order_products ( order_Id, product_id, user_id, quantity_order) VALUES($1,$2,$3)'
             //@ts-ignore
             const conn = await Client.connect()
             
-            const result = await conn.query(sql, [orderId, productId, userId, productQuantityOrder])
+            const result = await conn.query(sql, [orderId, productId, userId, quantityOrder])
             
             const productsOrder = result.rows[0]
             
