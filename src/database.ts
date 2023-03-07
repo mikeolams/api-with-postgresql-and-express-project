@@ -34,4 +34,5 @@ if(ENV==='test'){
     })
 }
 
+ //@ts-ignore
 export default client
