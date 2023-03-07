@@ -23,4 +23,5 @@ if (ENV === 'test') {
         password: POSTGRES_PASSWORD
     });
 }
+//@ts-ignore
 exports["default"] = client;
