@@ -39,8 +39,8 @@ exports.__esModule = true;
 var order_1 = require("../models/order");
 var jwt = require('jsonwebtoken');
 var store = new order_1.OrderStore();
-var index = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var orderId, userId, productId, orderStatus, productQuantityOrder, orders, err_1;
+var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var orderId, userId, productId, orderStatus, productQuantityOrder, orderedProducts, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -52,10 +52,10 @@ var index = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, store.index(userId)];
+                return [4 /*yield*/, store.show(userId)];
             case 2:
-                orders = _a.sent();
-                res.json(orders);
+                orderedProducts = _a.sent();
+                res.json(orderedProducts);
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
@@ -66,39 +66,69 @@ var index = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
         }
     });
 }); };
-var showCompleteOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var orderId, userId, orders;
+var index = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var orders, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                orderId = parseInt(req.params.id);
-                userId = parseInt(req.params.id);
-                return [4 /*yield*/, store.completeUserOrders(userId)];
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, store.index()];
             case 1:
                 orders = _a.sent();
                 res.json(orders);
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                res.status(400);
+                res.json(err_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+var showCompleteOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userId, userOrders;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                userId = parseInt(req.params.id);
+                return [4 /*yield*/, store.completeUserOrders(userId)];
+            case 1:
+                userOrders = _a.sent();
+                res.json(userOrders);
                 return [2 /*return*/];
         }
     });
 }); };
-//  const create = async (req: Request, res: Response) => {
-//     try {
-//         const order: Order = {
-//             id: req.body.id,
-//             productId: req.body.productId,
-//             userId:req.body.userId,
-//             productQuantityOrder: req.body.productQuantityOrder,
-//             orderStatus:req.body.orderStatus
-//         }
-//         const newOrder = await store.createOrder(order)
-//         res.json(newOrder)
-//     } catch(err) {
-//         res.status(400)
-//         res.json(err)
-//     }
-// }
+var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var order, newOrder, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                order = {
+                    id: req.body.id,
+                    productId: req.body.productId,
+                    userId: req.body.userId,
+                    productQuantityOrder: req.body.productQuantityOrder,
+                    orderStatus: req.body.orderStatus
+                };
+                return [4 /*yield*/, store.createOrder(order)];
+            case 1:
+                newOrder = _a.sent();
+                res.json(newOrder);
+                return [3 /*break*/, 3];
+            case 2:
+                err_3 = _a.sent();
+                res.status(400);
+                res.json(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 var addOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var order, newOrder, err_2;
+    var order, newProductOrder, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -110,15 +140,15 @@ var addOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
                     productQuantityOrder: req.body.productQuantityOrder,
                     orderStatus: req.body.orderStatus
                 };
-                return [4 /*yield*/, store.addOrder(order.id, order.productId, order.userId, order.productQuantityOrder, order.orderStatus)];
+                return [4 /*yield*/, store.addProductOrder(order.id, order.productId, order.userId, order.productQuantityOrder)];
             case 1:
-                newOrder = _a.sent();
-                res.json(newOrder);
+                newProductOrder = _a.sent();
+                res.json(newProductOrder);
                 return [3 /*break*/, 3];
             case 2:
-                err_2 = _a.sent();
+                err_4 = _a.sent();
                 res.status(400);
-                res.json(err_2);
+                res.json(err_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -140,9 +170,10 @@ var verifyAuthToken = function (req, res, next) {
     }
 };
 var order_routes = function (app) {
-    app.get('/orders/user/:id', verifyAuthToken, index);
-    app.get('/orders/:id', verifyAuthToken, showCompleteOrder);
-    app.post('/orders', verifyAuthToken, addOrder);
-    // app.post('/orders', create)
+    app.get('/orders/', index);
+    app.get('/orders/product/user/:id', verifyAuthToken, show);
+    app.get('/orders/products/user/:id', verifyAuthToken, showCompleteOrder);
+    app.post('/orders', create);
+    app.post('/orders/products', verifyAuthToken, addOrder);
 };
 exports["default"] = order_routes;

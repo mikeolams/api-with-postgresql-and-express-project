@@ -36,7 +36,7 @@ export class OrderStore {
             }
     
     
-    async addProductOrder(orderId:number,productId:number, userId:number, quantityOrder:number ): Promise<OrderProduct> {
+    async addProductOrder(orderId:number,productId:number, userId:number, quantityOrder:number ): Promise<Order> {
     
               // get order to see if it is active
               try {

@@ -69,7 +69,7 @@ const addOrder = async (req: Request, res: Response) => {
                     orderStatus:req.body.orderStatus
                 }
         
-                const newProductOrder = await store.addProductOrder(order.id,order.productId, order.userId,order.productQuantityOrder,order.orderStatus )
+                const newProductOrder = await store.addProductOrder(order.id,order.productId, order.userId,order.productQuantityOrder )
                 res.json(newProductOrder)
             } catch(err) {
                 res.status(400)
