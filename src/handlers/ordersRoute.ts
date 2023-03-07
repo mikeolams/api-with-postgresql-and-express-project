@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 
 const store = new OrderStore()
 
-const index = async (req: Request, res:Response) => {
+const show = async (req: Request, res:Response) => {
 
     const orderId: number = parseInt(req.params.id)
     const userId: number = parseInt(req.body.userId)
@@ -14,7 +14,17 @@ const index = async (req: Request, res:Response) => {
 
 
     try {
-        const orders = await store.index(userId)
+        const orderedProducts = await store.show(userId)
+        res.json(orderedProducts)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
+}
+
+const index = async (req: Request, res:Response) => {
+    try {
+        const orders = await store.index()
         res.json(orders)
     } catch(err) {
         res.status(400)
@@ -24,31 +34,30 @@ const index = async (req: Request, res:Response) => {
    
 
 const showCompleteOrder = async (req: Request, res: Response) => {
-    const orderId: number = parseInt(req.params.id)
+    // const orderId: number = parseInt(req.params.id)
     const userId: number = parseInt(req.params.id)
-    // const productId: number = parseInt(req.body.productId)
 
-    const orders = await store.completeUserOrders(userId)
-    res.json(orders)
+    const userOrders = await store.completeUserOrders(userId)
+    res.json(userOrders)
  }
 
-//  const create = async (req: Request, res: Response) => {
-//     try {
-//         const order: Order = {
-//             id: req.body.id,
-//             productId: req.body.productId,
-//             userId:req.body.userId,
-//             productQuantityOrder: req.body.productQuantityOrder,
-//             orderStatus:req.body.orderStatus
-//         }
+ const create = async (req: Request, res: Response) => {
+    try {
+        const order: Order = {
+            id: req.body.id,
+            productId: req.body.productId,
+            userId:req.body.userId,
+            productQuantityOrder: req.body.productQuantityOrder,
+            orderStatus:req.body.orderStatus
+        }
 
-//         const newOrder = await store.createOrder(order)
-//         res.json(newOrder)
-//     } catch(err) {
-//         res.status(400)
-//         res.json(err)
-//     }
-// }
+        const newOrder = await store.createOrder(order)
+        res.json(newOrder)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
+}
 
 const addOrder = async (req: Request, res: Response) => {
          try {
@@ -60,8 +69,8 @@ const addOrder = async (req: Request, res: Response) => {
                     orderStatus:req.body.orderStatus
                 }
         
-                const newOrder = await store.addOrder(order.id,order.productId, order.userId,order.productQuantityOrder,order.orderStatus )
-                res.json(newOrder)
+                const newProductOrder = await store.addProductOrder(order.id,order.productId, order.userId,order.productQuantityOrder,order.orderStatus )
+                res.json(newProductOrder)
             } catch(err) {
                 res.status(400)
                 res.json(err)
@@ -88,10 +97,11 @@ const addOrder = async (req: Request, res: Response) => {
  
 
 const order_routes = (app: express.Application) =>{
-	app.get('/orders/user/:id',verifyAuthToken, index)
-    app.get('/orders/:id',verifyAuthToken, showCompleteOrder)
-    app.post('/orders',verifyAuthToken, addOrder)
-    // app.post('/orders', create)
+	app.get('/orders/', index)
+	app.get('/orders/product/user/:id',verifyAuthToken, show)
+    app.get('/orders/products/user/:id',verifyAuthToken, showCompleteOrder)
+    app.post('/orders', create)
+    app.post('/orders/products',verifyAuthToken, addOrder)
 }
 
 export default order_routes
