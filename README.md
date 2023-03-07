@@ -8,6 +8,8 @@
     - start your docker container to host the database
     - run docker-compose up
 - Run migrations
+    - db-migrate db:create online_storefront
+    - db-migrate db:create online_storefront_test
     - db-migrate up
     - db-migrate down
 - run `yarn watch` in your terminal at the project root to run the project

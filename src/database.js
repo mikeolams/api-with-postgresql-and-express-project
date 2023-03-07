@@ -1,11 +1,9 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const module_1 = __importDefault(require());
+// import dotenv from dotenv
+var dotenv = require('dotenv');
 const pg_1 = require("pg");
-module_1.default.config();
+dotenv.config();
 let client;
 const { POSTGRES_HOST, POSTGRES_DB, POSTGRES_TEST_DB, POSTGRES_USER, POSTGRES_PASSWORD, ENV } = process.env;
 console.log(ENV);
@@ -25,4 +23,5 @@ if (ENV === 'test') {
         password: POSTGRES_PASSWORD,
     });
 }
+//@ts-ignore
 exports.default = client;

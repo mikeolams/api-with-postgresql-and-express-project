@@ -8,14 +8,17 @@ describe("Oder Model", () => {
     it('should have an index method', () => {
         expect(store.index).toBeDefined();
     });
+    it('should have an index method', () => {
+        expect(store.show).toBeDefined();
+    });
     it('should have a completeUserOrders method', () => {
         expect(store.completeUserOrders).toBeDefined();
     });
     it('should have a createOrder method', () => {
         expect(store.createOrder).toBeDefined();
     });
-    it('should have a addOrder method', () => {
-        expect(store.addOrder).toBeDefined();
+    it('should have a addProductOrder method', () => {
+        expect(store.addProductOrder).toBeDefined();
     });
     it('create method should create an Order', async () => {
         const result = await store.createOrder({
@@ -34,7 +37,7 @@ describe("Oder Model", () => {
         });
     });
     it('index method should return a list of product orders', async () => {
-        const result = await store.index(id);
+        const result = await store.index();
         expect(result).toEqual([{
                 id: 1,
                 productId: 4,
@@ -53,8 +56,8 @@ describe("Oder Model", () => {
             orderStatus: 'active'
         });
     });
-    it('create method should add an Order', async () => {
-        const result = await store.addOrder(1, 4, 2, 3, 'active');
+    it('create method should add an Product order', async () => {
+        const result = await store.addProductOrder(1, 4, 2, 3);
         expect(result).toEqual({
             id: 1,
             productId: 4,

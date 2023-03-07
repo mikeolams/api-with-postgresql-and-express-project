@@ -3,14 +3,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const order_1 = require("../models/order");
 var jwt = require('jsonwebtoken');
 const store = new order_1.OrderStore();
-const index = async (req, res) => {
+const show = async (req, res) => {
     const orderId = parseInt(req.params.id);
     const userId = parseInt(req.body.userId);
     const productId = parseInt(req.body.productId);
     const orderStatus = req.body.orderStatus;
     const productQuantityOrder = parseInt(req.body.productQuantityOrder);
     try {
-        const orders = await store.index(userId);
+        const orderedProducts = await store.show(userId);
+        res.json(orderedProducts);
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
+};
+const index = async (req, res) => {
+    try {
+        const orders = await store.index();
         res.json(orders);
     }
     catch (err) {
@@ -19,28 +29,28 @@ const index = async (req, res) => {
     }
 };
 const showCompleteOrder = async (req, res) => {
-    const orderId = parseInt(req.params.id);
+    // const orderId: number = parseInt(req.params.id)
     const userId = parseInt(req.params.id);
-    // const productId: number = parseInt(req.body.productId)
-    const orders = await store.completeUserOrders(userId);
-    res.json(orders);
+    const userOrders = await store.completeUserOrders(userId);
+    res.json(userOrders);
 };
-//  const create = async (req: Request, res: Response) => {
-//     try {
-//         const order: Order = {
-//             id: req.body.id,
-//             productId: req.body.productId,
-//             userId:req.body.userId,
-//             productQuantityOrder: req.body.productQuantityOrder,
-//             orderStatus:req.body.orderStatus
-//         }
-//         const newOrder = await store.createOrder(order)
-//         res.json(newOrder)
-//     } catch(err) {
-//         res.status(400)
-//         res.json(err)
-//     }
-// }
+const create = async (req, res) => {
+    try {
+        const order = {
+            id: req.body.id,
+            productId: req.body.productId,
+            userId: req.body.userId,
+            productQuantityOrder: req.body.productQuantityOrder,
+            orderStatus: req.body.orderStatus
+        };
+        const newOrder = await store.createOrder(order);
+        res.json(newOrder);
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
+};
 const addOrder = async (req, res) => {
     try {
         const order = {
@@ -50,8 +60,8 @@ const addOrder = async (req, res) => {
             productQuantityOrder: req.body.productQuantityOrder,
             orderStatus: req.body.orderStatus
         };
-        const newOrder = await store.addOrder(order.id, order.productId, order.userId, order.productQuantityOrder, order.orderStatus);
-        res.json(newOrder);
+        const newProductOrder = await store.addProductOrder(order.id, order.productId, order.userId, order.productQuantityOrder);
+        res.json(newProductOrder);
     }
     catch (err) {
         res.status(400);
@@ -74,9 +84,10 @@ const verifyAuthToken = (req, res, next) => {
     }
 };
 const order_routes = (app) => {
-    app.get('/orders/user/:id', verifyAuthToken, index);
-    app.get('/orders/:id', verifyAuthToken, showCompleteOrder);
-    app.post('/orders', verifyAuthToken, addOrder);
-    // app.post('/orders', create)
+    app.get('/orders/', index);
+    app.get('/orders/product/user/:id', verifyAuthToken, show);
+    app.get('/orders/products/user/:id', verifyAuthToken, showCompleteOrder);
+    app.post('/orders', create);
+    app.post('/orders/products', verifyAuthToken, addOrder);
 };
 exports.default = order_routes;
