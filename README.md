@@ -1,6 +1,11 @@
 # Storefront Backend Project
 
-## Getting Started with Completed project 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+# START OF PROJECT
+## Getting Started HOW TO RUN THE Completed project 
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
 - To get started, run `yarn` in your terminal at the project root.
 - Start your docker container to host the database
@@ -17,31 +22,78 @@
 - Run migrations
     - db-migrate up
     - db-migrate down
-- run `yarn test` in your terminal at the project root to run test 
+- Other scripts that can be run are as in the package.json file in the root folder of this project
 
 - Any of the endpoints could be test as listed 
 
+## Database schema with column name and type
+
+#### Products
+{
+productName:string;
+price: number;
+category: string;
+}
+
+#### Users
+{
+firstName:string;
+lastName:string;
+password:string;
+}
+#### Orders
+{
+productId:number;
+userId:number;
+productQuantityOrder:number;
+orderStatus:string
+}
+
+
+#### Envirinment variable details
+POSTGRES_HOST='127.0.0.1'
+POSTGRES_DB='online_storefront'
+POSTGRES_TEST_DB='online_storefront_test'
+POSTGRES_USER='magical_mike'
+POSTGRES_PASSWORD='password123'
+BCRYPT_PASSWORD=your-secret-password 
+SALT_ROUNDS=10
+TOKEN_SECRET=alohomora123
+ENV='dev'
+
+
 ## API Endpoints
 #### Products
-- Index 
-- Show
-- Create [token required]
+- Index  get 'http://localhost:3000/products'
+- Show  get 'http://localhost:3000/products/:id'
+- Create [token required] post 'http://localhost:3000/products'
+
+- others as seen in the productsRoute file in the handler dictories
+---------------------------------------------------------------------
 - [OPTIONAL] Top 5 most popular products 
 - [OPTIONAL] Products by category (args: product category)
 
 #### Users
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+- Index [token required]  get 'http://localhost:3000/users'
+- Show [token required]   get 'http://localhost:3000/users/:id'
+- Create N[token required]  post 'http://localhost:3000/user'
 
 #### Orders
-- Current Order by user (args: user id)[token required]
+- Current Order by user (args: user id)[token required]   get '/orders/product/user/:id'
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
  
 
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+# END OF PROJECT GETTING STARTED
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
+
+
+# START
 # Project Instruction to build the complete project
 
 ## Getting Started
