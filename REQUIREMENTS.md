@@ -23,6 +23,8 @@
 
 ## Database schema with column name and type
 
+# The database is running on port 0.0.0.0:5432 on desktop docker container
+
 #### Products
 (
   id SERIAL PRIMARY  KEY,

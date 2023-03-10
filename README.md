@@ -7,6 +7,10 @@
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
+# The server is running on port 0.0.0.0:3000 on localhost
+
+# The database is running on port 0.0.0.0:5432 on desktop docker container
+
 - To get started, run `yarn` in your terminal at the project root.
 - Start your docker container to host the database
 - After installing Docker and Docker Compose
