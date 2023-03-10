@@ -14,24 +14,45 @@ var jwt = require('jsonwebtoken');
 const store = new ProductStore()
 
 const index = async (_req: Request, res:Response) => {
-	const products = await store.index()
-	res.json(products)
+    try {
+        const products = await store.index()
+        res.json(products)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
 }
 
 const show = async (req: Request, res: Response) => {
-    const id= parseInt(req.params.id)
-    const products = await store.show(id)
-    res.json(products)
+
+    try {
+        const id= parseInt(req.params.id)
+        const products = await store.show(id)
+        res.json(products)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
  }
 
  const topFive = async (req: Request, res: Response) => {
-    const products = await store.showTopFive()
-    res.json(products)
+    try {
+        const products = await store.showTopFive()
+        res.json(products)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
  }
 
  const showCategory = async (req: Request, res: Response) => {
-    const products = await store.showCategory(req.params.category)
-    res.json(products)
+    try {
+        const products = await store.showCategory(req.params.category)
+        res.json(products)
+    } catch(err) {
+        res.status(400)
+        res.json(err)
+    }
  }
  
  const create = async (req: Request, res: Response) => {
@@ -75,7 +96,7 @@ const product_routes = (app: express.Application) =>{
     app.get('/products/:id', show)
     app.get('/products/topfive', topFive)
     app.get('/products/:category', showCategory)
-    app.post('/products',  create)
+    app.post('/products',verifyAuthToken, create)
 }
 
 export default product_routes

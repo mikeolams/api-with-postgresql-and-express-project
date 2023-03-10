@@ -46,57 +46,88 @@ var jwt = require('jsonwebtoken');
 // }
 var store = new product_1.ProductStore();
 var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var products, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store.index()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, store.index()];
             case 1:
                 products = _a.sent();
                 res.json(products);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                err_1 = _a.sent();
+                res.status(400);
+                res.json(err_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var show = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var id, products;
+    var id, products, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                _a.trys.push([0, 2, , 3]);
                 id = parseInt(req.params.id);
                 return [4 /*yield*/, store.show(id)];
             case 1:
                 products = _a.sent();
                 res.json(products);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                err_2 = _a.sent();
+                res.status(400);
+                res.json(err_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var topFive = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var products, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store.showTopFive()];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, store.showTopFive()];
             case 1:
                 products = _a.sent();
                 res.json(products);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                err_3 = _a.sent();
+                res.status(400);
+                res.json(err_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var showCategory = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var products;
+    var products, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, store.showCategory(req.params.category)];
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, store.showCategory(req.params.category)];
             case 1:
                 products = _a.sent();
                 res.json(products);
-                return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 2:
+                err_4 = _a.sent();
+                res.status(400);
+                res.json(err_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
 var create = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var product, newProduct, err_1;
+    var product, newProduct, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -113,9 +144,9 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 res.json(newProduct);
                 return [3 /*break*/, 3];
             case 2:
-                err_1 = _a.sent();
+                err_5 = _a.sent();
                 res.status(400);
-                res.json(err_1);
+                res.json(err_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -141,6 +172,6 @@ var product_routes = function (app) {
     app.get('/products/:id', show);
     app.get('/products/topfive', topFive);
     app.get('/products/:category', showCategory);
-    app.post('/products', create);
+    app.post('/products', verifyAuthToken, create);
 };
 exports["default"] = product_routes;

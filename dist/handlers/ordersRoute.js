@@ -165,10 +165,10 @@ var verifyAuthToken = function (req, res, next) {
     }
 };
 var order_routes = function (app) {
-    app.get('/orders/', index);
+    app.get('/orders/', verifyAuthToken, index);
     app.get('/orders/product/user/:id', verifyAuthToken, show);
     app.get('/orders/products/user/:id', verifyAuthToken, showCompleteOrder);
-    app.post('/orders', create);
+    app.post('/orders', verifyAuthToken, create);
     app.post('/orders/products', verifyAuthToken, addOrder);
 };
 // const order_routes = (app: express.Application) =>{
