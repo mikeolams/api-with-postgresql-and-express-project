@@ -29,25 +29,35 @@
 ## Database schema with column name and type
 
 #### Products
-{
-productName:string;
-price: number;
-category: string;
-}
+(
+  id SERIAL PRIMARY  KEY,
+    name VARCHAR(150),
+    price integer,
+    category VARCHAR(25)  
+)
 
 #### Users
-{
-firstName:string;
-lastName:string;
-password:string;
-}
+(
+    id SERIAL PRIMARY  KEY,
+    first_name VARCHAR(150),
+    last_name VARCHAR(150),
+    password VARCHAR(150)
+    );
+
 #### Orders
-{
-productId:number;
-userId:number;
-productQuantityOrder:number;
-orderStatus:string
-}
+   (
+    id SERIAL PRIMARY  KEY,
+    user_id bigint REFERENCES users(id),
+    order_status VARCHAR(10)
+    )
+
+#### OrderedProducts
+ (
+    id SERIAL PRIMARY  KEY,
+    order_id bigint REFERENCES orders(id),
+    product_id bigint REFERENCES products(id),
+    product_quantity_order integer
+)
 
 
 #### Envirinment variable details

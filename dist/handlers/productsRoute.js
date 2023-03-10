@@ -141,6 +141,6 @@ var product_routes = function (app) {
     app.get('/products/:id', show);
     app.get('/products/topfive', topFive);
     app.get('/products/:category', showCategory);
-    app.post('/products', verifyAuthToken, create);
+    app.post('/products', create);
 };
 exports["default"] = product_routes;

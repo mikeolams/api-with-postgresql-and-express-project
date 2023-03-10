@@ -66,7 +66,7 @@ var show = function (req, res) { return __awaiter(void 0, void 0, void 0, functi
         }
     });
 }); };
-var index = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+var index = function (_req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var orders, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -108,9 +108,8 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
                 _a.trys.push([0, 2, , 3]);
                 order = {
                     id: req.body.id,
-                    productId: req.body.productId,
                     userId: req.body.userId,
-                    productQuantityOrder: req.body.productQuantityOrder,
+                    // quantityOrder: req.body.quantityOrder,
                     orderStatus: req.body.orderStatus
                 };
                 return [4 /*yield*/, store.createOrder(order)];
@@ -128,19 +127,15 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
     });
 }); };
 var addOrder = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var order, newProductOrder, err_4;
+    var orderId, productId, productQuantityOrder, newProductOrder, err_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                order = {
-                    id: parseInt(req.body.id),
-                    productId: parseInt(req.body.productId),
-                    userId: req.body.userId,
-                    productQuantityOrder: req.body.productQuantityOrder,
-                    orderStatus: req.body.orderStatus
-                };
-                return [4 /*yield*/, store.addProductOrder(order.id, order.productId, order.userId, order.productQuantityOrder)];
+                orderId = parseInt(req.body.id);
+                productId = parseInt(req.body.productId);
+                productQuantityOrder = parseInt(req.body.productQuantityOrder);
+                return [4 /*yield*/, store.addProductOrder(orderId, productId, productQuantityOrder)];
             case 1:
                 newProductOrder = _a.sent();
                 res.json(newProductOrder);
@@ -176,4 +171,11 @@ var order_routes = function (app) {
     app.post('/orders', create);
     app.post('/orders/products', verifyAuthToken, addOrder);
 };
+// const order_routes = (app: express.Application) =>{
+// 	app.get('/orders/', index)
+// 	app.get('/orders/product/user/:id', show)
+//     app.get('/orders/products/user/:id', showCompleteOrder)
+//     app.post('/orders', create)
+//     app.post('/orders/products', addOrder)
+// }
 exports["default"] = order_routes;

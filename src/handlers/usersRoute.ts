@@ -36,6 +36,7 @@ const show = async (req: Request, res: Response) => {
      }
  }
 
+ //authentication not active for testing purpose
  const authenticate = async (req: Request, res: Response) => {
     const username = req.body.firstName;
     const user: User = {
@@ -73,6 +74,12 @@ const show = async (req: Request, res: Response) => {
 }
  
  
+
+// const user_routes = (app: express.Application) =>{
+// 	app.get('/users', index)
+//     app.get('/users/:id', show)
+//     app.post('/user', create)
+// }
 
 const user_routes = (app: express.Application) =>{
 	app.get('/users',verifyAuthToken, index)

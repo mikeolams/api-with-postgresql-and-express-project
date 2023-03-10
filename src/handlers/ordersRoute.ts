@@ -22,7 +22,7 @@ const show = async (req: Request, res:Response) => {
     }
 }
 
-const index = async (req: Request, res:Response) => {
+const index = async (_req: Request, res:Response) => {
     try {
         const orders = await store.index()
         res.json(orders)
@@ -45,9 +45,8 @@ const showCompleteOrder = async (req: Request, res: Response) => {
     try {
         const order: Order = {
             id: req.body.id,
-            productId: req.body.productId,
             userId:req.body.userId,
-            productQuantityOrder: req.body.productQuantityOrder,
+            // quantityOrder: req.body.quantityOrder,
             orderStatus:req.body.orderStatus
         }
 
@@ -61,15 +60,13 @@ const showCompleteOrder = async (req: Request, res: Response) => {
 
 const addOrder = async (req: Request, res: Response) => {
          try {
-                const order: Order = {
-                    id: parseInt(req.body.id),
-                    productId: parseInt(req.body.productId),
-                    userId:req.body.userId,
-                    productQuantityOrder: req.body.productQuantityOrder,
-                    orderStatus:req.body.orderStatus
-                }
+
+            const orderId: number = parseInt(req.body.id)
+            const productId: number = parseInt(req.body.productId)
+            const productQuantityOrder: number = parseInt(req.body.productQuantityOrder)
+
         
-                const newProductOrder = await store.addProductOrder(order.id,order.productId, order.userId,order.productQuantityOrder )
+                const newProductOrder = await store.addProductOrder(orderId,productId,productQuantityOrder )
                 res.json(newProductOrder)
             } catch(err) {
                 res.status(400)
@@ -103,5 +100,15 @@ const order_routes = (app: express.Application) =>{
     app.post('/orders', create)
     app.post('/orders/products',verifyAuthToken, addOrder)
 }
+
+// const order_routes = (app: express.Application) =>{
+// 	app.get('/orders/', index)
+// 	app.get('/orders/product/user/:id', show)
+//     app.get('/orders/products/user/:id', showCompleteOrder)
+//     app.post('/orders', create)
+//     app.post('/orders/products', addOrder)
+// }
+
+
 
 export default order_routes

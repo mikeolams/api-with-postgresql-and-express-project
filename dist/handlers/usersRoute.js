@@ -94,6 +94,7 @@ var create = function (req, res) { return __awaiter(void 0, void 0, void 0, func
         }
     });
 }); };
+//authentication not active for testing purpose
 var authenticate = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var username, user, u, token, error_1;
     return __generator(this, function (_a) {
@@ -140,6 +141,11 @@ var verifyAuthToken = function (req, res, next) {
         res.status(401);
     }
 };
+// const user_routes = (app: express.Application) =>{
+// 	app.get('/users', index)
+//     app.get('/users/:id', show)
+//     app.post('/user', create)
+// }
 var user_routes = function (app) {
     app.get('/users', verifyAuthToken, index);
     app.get('/users/:id', verifyAuthToken, show);
