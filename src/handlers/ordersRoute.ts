@@ -93,7 +93,7 @@ const addOrder = async (req: Request, res: Response) => {
  
  
 
-const order_routes = (app: express.Application) =>{
+export const order_routes = (app: express.Application) =>{
 	app.get('/orders/',verifyAuthToken, index)
 	app.get('/orders/product/user/:id',verifyAuthToken, show)
     app.get('/orders/products/user/:id',verifyAuthToken, showCompleteOrder)
@@ -111,4 +111,4 @@ const order_routes = (app: express.Application) =>{
 
 
 
-export default order_routes
+// export default order_routes

@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 // import cors from 'cors'
 import product_routes from './handlers/productsRoute'
 import user_routes from './handlers/usersRoute'
-import order_routes from './handlers/ordersRoute'
+import {order_routes} from './handlers/ordersRoute'
 var cors = require('cors');
 
 const app: express.Application = express()

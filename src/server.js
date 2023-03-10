@@ -8,7 +8,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 // import cors from 'cors'
 const productsRoute_1 = __importDefault(require("./handlers/productsRoute"));
 const usersRoute_1 = __importDefault(require("./handlers/usersRoute"));
-const ordersRoute_1 = __importDefault(require("./handlers/ordersRoute"));
+const ordersRoute_1 = require("./handlers/ordersRoute");
 var cors = require('cors');
 const app = (0, express_1.default)();
 const address = "0.0.0.0:3000";
@@ -23,7 +23,7 @@ app.get('/', cors(corsOptions), function (req, res, next) {
 });
 (0, productsRoute_1.default)(app);
 (0, usersRoute_1.default)(app);
-(0, ordersRoute_1.default)(app);
+(0, ordersRoute_1.order_routes)(app);
 app.listen(3000, function () {
     console.log(`starting app on: ${address}`);
 });

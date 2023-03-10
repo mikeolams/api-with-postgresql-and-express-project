@@ -10,21 +10,45 @@ var jwt = require('jsonwebtoken');
 // }
 const store = new product_1.ProductStore();
 const index = async (_req, res) => {
-    const products = await store.index();
-    res.json(products);
+    try {
+        const products = await store.index();
+        res.json(products);
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
 };
 const show = async (req, res) => {
-    const id = parseInt(req.params.id);
-    const products = await store.show(id);
-    res.json(products);
+    try {
+        const id = parseInt(req.params.id);
+        const products = await store.show(id);
+        res.json(products);
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
 };
 const topFive = async (req, res) => {
-    const products = await store.showTopFive();
-    res.json(products);
+    try {
+        const products = await store.showTopFive();
+        res.json(products);
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
 };
 const showCategory = async (req, res) => {
-    const products = await store.showCategory(req.params.category);
-    res.json(products);
+    try {
+        const products = await store.showCategory(req.params.category);
+        res.json(products);
+    }
+    catch (err) {
+        res.status(400);
+        res.json(err);
+    }
 };
 const create = async (req, res) => {
     try {

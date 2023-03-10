@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.order_routes = void 0;
 const order_1 = require("../models/order");
 var jwt = require('jsonwebtoken');
 const store = new order_1.OrderStore();
@@ -18,7 +19,7 @@ const show = async (req, res) => {
         res.json(err);
     }
 };
-const index = async (req, res) => {
+const index = async (_req, res) => {
     try {
         const orders = await store.index();
         res.json(orders);
@@ -38,9 +39,8 @@ const create = async (req, res) => {
     try {
         const order = {
             id: req.body.id,
-            productId: req.body.productId,
             userId: req.body.userId,
-            productQuantityOrder: req.body.productQuantityOrder,
+            // quantityOrder: req.body.quantityOrder,
             orderStatus: req.body.orderStatus
         };
         const newOrder = await store.createOrder(order);
@@ -53,14 +53,10 @@ const create = async (req, res) => {
 };
 const addOrder = async (req, res) => {
     try {
-        const order = {
-            id: parseInt(req.body.id),
-            productId: parseInt(req.body.productId),
-            userId: req.body.userId,
-            productQuantityOrder: req.body.productQuantityOrder,
-            orderStatus: req.body.orderStatus
-        };
-        const newProductOrder = await store.addProductOrder(order.id, order.productId, order.userId, order.productQuantityOrder);
+        const orderId = parseInt(req.body.id);
+        const productId = parseInt(req.body.productId);
+        const productQuantityOrder = parseInt(req.body.productQuantityOrder);
+        const newProductOrder = await store.addProductOrder(orderId, productId, productQuantityOrder);
         res.json(newProductOrder);
     }
     catch (err) {
@@ -84,10 +80,18 @@ const verifyAuthToken = (req, res, next) => {
     }
 };
 const order_routes = (app) => {
-    app.get('/orders/', index);
+    app.get('/orders/', verifyAuthToken, index);
     app.get('/orders/product/user/:id', verifyAuthToken, show);
     app.get('/orders/products/user/:id', verifyAuthToken, showCompleteOrder);
-    app.post('/orders',verifyAuthToken, create);
+    app.post('/orders', verifyAuthToken, create);
     app.post('/orders/products', verifyAuthToken, addOrder);
 };
-exports.default = order_routes;
+exports.order_routes = order_routes;
+// const order_routes = (app: express.Application) =>{
+// 	app.get('/orders/', index)
+// 	app.get('/orders/product/user/:id', show)
+//     app.get('/orders/products/user/:id', showCompleteOrder)
+//     app.post('/orders', create)
+//     app.post('/orders/products', addOrder)
+// }
+// export default order_routes

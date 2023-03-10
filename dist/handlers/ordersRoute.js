@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+exports.order_routes = void 0;
 var order_1 = require("../models/order");
 var jwt = require('jsonwebtoken');
 var store = new order_1.OrderStore();
@@ -171,6 +172,7 @@ var order_routes = function (app) {
     app.post('/orders', verifyAuthToken, create);
     app.post('/orders/products', verifyAuthToken, addOrder);
 };
+exports.order_routes = order_routes;
 // const order_routes = (app: express.Application) =>{
 // 	app.get('/orders/', index)
 // 	app.get('/orders/product/user/:id', show)
@@ -178,4 +180,4 @@ var order_routes = function (app) {
 //     app.post('/orders', create)
 //     app.post('/orders/products', addOrder)
 // }
-exports["default"] = order_routes;
+// export default order_routes

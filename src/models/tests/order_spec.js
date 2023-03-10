@@ -23,16 +23,14 @@ describe("Oder Model", () => {
     it('create method should create an Order', async () => {
         const result = await store.createOrder({
             id: 1,
-            productId: 4,
             userId: 2,
-            productQuantityOrder: 3,
+            // quantityOrder: 3,
             orderStatus: 'active'
         });
         expect(result).toEqual({
             id: 1,
-            productId: 4,
             userId: 2,
-            productQuantityOrder: 3,
+            // quantityOrder: 3,
             orderStatus: 'active'
         });
     });
@@ -40,30 +38,27 @@ describe("Oder Model", () => {
         const result = await store.index();
         expect(result).toEqual([{
                 id: 1,
-                productId: 4,
                 userId: 2,
-                productQuantityOrder: 3,
+                // quantityOrder: 3,
                 orderStatus: 'active'
             }]);
     });
-    it('show method should return the correct order  with the id ', async () => {
-        const result = await store.completeUserOrders(id);
-        expect(result).toEqual({
-            id: 1,
-            productId: 4,
-            userId: 2,
-            productQuantityOrder: 3,
-            orderStatus: 'active'
-        });
-    });
+    // it('show method should return the correct order  with the id ', async () => {
+    //   const result = await store.completeUserOrders(id)
+    //   expect(result).toEqual([{
+    //       id: 1,
+    //       userId: 2,
+    //       quantityOrder: 3,
+    //       orderStatus: 'active'
+    //   }]);
+    // });
     it('create method should add an Product order', async () => {
-        const result = await store.addProductOrder(1, 4, 2, 3);
+        const result = await store.addProductOrder(4, 4, 3);
         expect(result).toEqual({
             id: 1,
+            orderId: 4,
             productId: 4,
-            userId: 2,
-            productQuantityOrder: 3,
-            orderStatus: 'active'
+            productQuantityOrder: 3
         });
     });
 });

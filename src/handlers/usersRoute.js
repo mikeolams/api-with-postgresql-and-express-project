@@ -31,6 +31,7 @@ const create = async (req, res) => {
         res.json(err);
     }
 };
+//authentication not active for testing purpose
 const authenticate = async (req, res) => {
     const username = req.body.firstName;
     const user = {
@@ -65,6 +66,11 @@ const verifyAuthToken = (req, res, next) => {
         res.status(401);
     }
 };
+// const user_routes = (app: express.Application) =>{
+// 	app.get('/users', index)
+//     app.get('/users/:id', show)
+//     app.post('/user', create)
+// }
 const user_routes = (app) => {
     app.get('/users', verifyAuthToken, index);
     app.get('/users/:id', verifyAuthToken, show);
