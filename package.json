@@ -2,13 +2,13 @@
   "name": "storefront_backend",
   "version": "0.1.0",
   "description": "",
-  "type": "module",
   "main": "server.ts",
   "scripts": {
     "start": "node src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
     "migrate": "db-migrate --env test up && db-migrate up",
-    "test": "ENV=test && yarn tsc && db-migrate --env test up && db-migrate db:drop test",
+    "jasmine": "jasmine --config= jasmine.json",
+    "test": "ENV=test && yarn tsc && db-migrate --env test up && jasmine --config= src/**/tests/*[s]pec.ts && db-migrate db:drop test",
     "tsc": "tsc"
   },
   "author": "Udacity",
