@@ -21,31 +21,42 @@ async index(): Promise<Product[]> {
             throw new Error (` Could not products: ${err}`)}
         }
 
-async show(id:number): Promise<Product> {
+async show(id:number): Promise<Product[]> {
     try {
             //@ts-ignore
             const conn = await Client.connect()
-            const sql = 'SELECT * FROM users WHERE id=($1)'
-            const result = await conn.query(sql,id)
+            const sql = 'SELECT * FROM products WHERE id=($1)'
+            const result = await conn.query(sql,[id])
             conn.release()
             return result.rows
         }catch (err) {
-            throw new Error (` Could not products: ${err}`)}
+            throw new Error (` Could not list the required product: ${err}`)}
         }
 
-async showCategory(category:string): Promise<Product> {
+async showCategory(category:string): Promise<Product[]> {
     try {
             //@ts-ignore
             const conn = await Client.connect()
-            const sql = 'SELECT * FROM products WHERE category=("active")'
-            const result = await conn.query(sql,category)
-                    conn.release()
-            return result.rows
+            // const checkSql = 'SELECT * FROM products'
+            // const checkResult = await conn.query(checkSql)
+            // if (checkResult=== undefined ){
+            //     // const result = "Product has not being created"
+            //     // return checkResult
+            //     console.log(checkResult)
+            //     throw new Error (` Product has not being created: ${checkResult}`)
+            // }else{
+                const sql = 'SELECT * FROM products WHERE category LIKE "active"'
+                const result = await conn.query(sql,[category])
+                console.log(result.Result.rows)
+                conn.release()
+                return result.rows
+            // }
+          
         }catch (err) {
-            throw new Error (` Could not products: ${err}`)}
+            throw new Error (` Could not list products category required because: ${err}`)}
         }
 
-async showTopFive(): Promise<Product> {
+async showTopFive(): Promise<Product[]> {
      try {
             //@ts-ignore
             const conn = await Client.connect()
@@ -57,22 +68,22 @@ async showTopFive(): Promise<Product> {
             throw new Error (` Could not products: ${err}`)}
         }
 
-async addProduct(p:Product ): Promise<Product> {
+async addProduct(productName:string, price:number, category:string ): Promise<Product> {
     try {
         const sql = 'INSERT INTO products ( name, price, category) VALUES($1,$2,$3)'
         //@ts-ignore
         const conn = await Client.connect()
 
-        const result = await conn.query(sql, [p.productName, p.price, p.category])
+        const result = await conn.query(sql, [productName, price, category])
 
-        const product = result.rows[0]
+        const product:Product = result.rows[0]
 
         conn.release()
 
         return product
     
     }catch (err) {
-        throw new Error (` Could not add product ${p.productName}: ${err}`)}
+        throw new Error (` Could not add product ${productName}: ${err}`)}
     }
     
 }

@@ -4,10 +4,9 @@ import bodyParser from 'body-parser'
 import {product_routes} from './handlers/productsRoute'
 import {user_routes} from './handlers/usersRoute'
 import {order_routes} from './handlers/ordersRoute'
-var cors = require('cors');
+const cors = require('cors');
 
-export const app: express.Application = express()
-const address: string = "0.0.0.0:3000"
+const app: express.Application = express()
 
 const corsOptions = {
 	origin:'http://someotherdomain.com',
@@ -28,7 +27,10 @@ user_routes(app);
 order_routes(app)
 
 
+module.exports = app
 
-app.listen(3000, function () {
-    console.log(`starting app on: ${address}`)
-})
+// export default app
+
+// app.listen(3000, function () {
+//     console.log(`starting app on: ${address}`)
+// })

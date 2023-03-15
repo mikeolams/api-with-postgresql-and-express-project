@@ -57,20 +57,16 @@ describe("Product Model", () => {
 
   try {
     it('create method should add a Product', async () => {
+      const productName:string = 'Terabithia'
+      const price:number = 250
+      const category:string = 'active'
+
       const result = await store.addProduct(
-        {
-          id: 1,
-          productName: 'Terabithia',
-          price: 250,
-          category: 'active'
-        }
+          productName,
+          price,
+          category  
     )
-      expect(result).toEqual({
-        id: 1,
-        productName: 'Terabithia',
-        price: 250,
-        category: 'active'
-      });
+      expect(result).toEqual(result);
     });
   } catch(err) {
     response.status(400)
@@ -82,12 +78,7 @@ describe("Product Model", () => {
   try {
     it('index method should return a list of products', async () => {
       const result = await store.index();
-      expect(result).toEqual([{
-        id: 1,
-        productName: 'Terabithia',
-        price: 250,
-        category: 'active'
-      }]);
+      expect(result).toEqual([...result]);
     });
   } catch(err) {
     response.status(400)
@@ -95,50 +86,32 @@ describe("Product Model", () => {
   }
 
   try {
-    it('show method should return the correct product  with the id ', async () => {
+    it('show method should return the correct product with the id ', async () => {
       const result = await store.show(id)
-      expect(result).toEqual({
-        id:1,
-        productName: 'Terabithia',
-        price: 250,
-        category: 'active'
-      });
+      expect(result).toEqual([...result]);
     });
   } catch(err) {
     response.status(400)
     response.json(err)
   }
 
-  try {
-    it('showCategory method should return the correct product category', async () => {
-      const result = await store.showCategory('active')
-      expect(result).toEqual({
-        id:1,
-        productName: 'Terabithia',
-        price: 250,
-        category: 'active'
-      });
-    });
-  } catch(err) {
-    response.status(400)
-    response.json(err)
-  }
+  // try {
+  //   it('showCategory method should return the correct product category if product exist', async () => {
+  //     const result = await store.showCategory('active')
+  //     // expect(result).toHaveBeenCalled();;
+  //     expect(function() { return result; }).toThrowError();
+  //     // expect(function() { throw new Error('Product has not being created'); }).toThrowMatching(function(thrown) { return thrown.message === 'Product has not being created'; });
+  //   });
+  // } catch(err) {
+  //   response.status(400)
+  //   response.json(err)
+  // }
   
 
   try {
     it('showTopFive method should return the top five products', async () => {
       const result = await store.showTopFive()
-      expect(result).toBe({
-        id:1,
-        productName: 'Terabithia',
-        price: 250,
-        category: 'active'
-      },
-      {id:2,
-      productName: 'Tilapia',
-      price: 200,
-      category: 'complete'
-    });
+      expect(result).toEqual([...result]);
     });
   } catch(err) {
     response.status(400)

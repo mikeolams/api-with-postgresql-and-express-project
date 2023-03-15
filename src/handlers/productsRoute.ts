@@ -1,10 +1,11 @@
 import express, {Request, Response, NextFunction} from 'express'
 import {Product, ProductStore} from '../models/product'
+// import { app } from '../server';
 // import cors from 'cors'
 // import jwt from 'jsonwebtoken'
 var jwt = require('jsonwebtoken');
 
-
+// app
 // const corsOptions = {
 // 	origin:'http://someotherdomain.com',
 // 	optionsSuccessStatus: 200 //some legacy browsers (IE11,various)
@@ -57,14 +58,13 @@ const show = async (req: Request, res: Response) => {
  
  const create = async (req: Request, res: Response) => {
      try {
-         const product: Product = {
-             id: req.body.id,
-             productName: req.body.productName,
-             price:req.body.price,
-             category: req.body.category,
-         }
+     
+        const productName: string = req.body.productName
+        const price: number = parseInt(req.body.price)
+        const category: string = req.body.category
+   
  
-         const newProduct = await store.addProduct(product)
+         const newProduct = await store.addProduct(productName,price,category)
          res.json(newProduct)
      } catch(err) {
          res.status(400)
@@ -91,7 +91,8 @@ const show = async (req: Request, res: Response) => {
  
  
 
-const product_routes = (app: express.Application) =>{
+export const product_routes = (app: express.Application) =>{
+    // app
 	app.get('/products', index)
     app.get('/products/:id', show)
     app.get('/products/topfive', topFive)
@@ -99,4 +100,4 @@ const product_routes = (app: express.Application) =>{
     app.post('/products',verifyAuthToken, create)
 }
 
-export default product_routes
+// export default product_routes

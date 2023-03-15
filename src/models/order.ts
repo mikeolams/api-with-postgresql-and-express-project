@@ -5,7 +5,7 @@ export type Order ={
 id: number;
 // productId:number; //product id in the  specific order
 userId:number;
-// quantityOrder:number;
+quantityOrder:number;
 orderStatus:string
 }
 
@@ -166,6 +166,10 @@ export class OrderStore {
           
                 const order = result.rows[0]
           
+                if (order === undefined) {
+                    throw new Error(`Could not add product ${productId} to order ${orderId} because ${order}`)
+                  }
+                  
                 if (order.orderStatus !== "active") {
                   throw new Error(`Could not add product ${productId} to order ${orderId} because order status is ${order.status}`)
                 }
@@ -206,22 +210,22 @@ async index(): Promise<Order[]> {
             throw new Error (` Could not list orders: ${err}`)}
         }
 
-async createOrder(O:Order ): Promise<Order> {
+async createOrder(userId:number, quantityOrder:number, orderStatus:string ): Promise<Order> {
     try {
-        const sql = 'INSERT INTO orders ( user_id, order_status) VALUES($1,$2)'
+        const sql = 'INSERT INTO orders ( user_id, quantity_order, order_status) VALUES($1,$2,$3)'
         //@ts-ignore
         const connServer = await Client.connect()
                 
-        const result = await connServer.query(sql, [ O.userId, O.orderStatus])
+        const result = await connServer.query(sql, [ userId, quantityOrder, orderStatus])
                 
-        const order = result.rows[0]
+        const order:Order = result.rows[0]
                 
         connServer.release()
                 
         return order
                     
     }catch (err) {
-        throw new Error (` Could not create order ${O.id}: ${err}`)
+        throw new Error (` Could not create order for ${userId}: ${err}`)
     }}
 
 }

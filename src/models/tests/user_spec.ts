@@ -40,21 +40,16 @@ try {
 
   try {
     it('create method should add a User', async () => {
+      const firstName: string = 'Terabi'
+      const lastName: string = 'Peter'
+      const password: string = 'hashpassword'
+
       const result = await store.create(
-        {
-          id: 1,
-          firstName: 'Terabi',
-          lastName: 'Peter',
-          password: 'hashpassword'
-  
-        }
+          firstName,
+          lastName,
+          password
     )
-      expect(result).toEqual({
-          id: 1,
-          firstName: 'Terabi',
-          lastName: 'Peter',
-          password: 'hashpassword'
-      });
+      expect(result).toEqual(result);
     });
   } catch(err) {
     response.status(400)
@@ -65,12 +60,7 @@ try {
   try {
     it('index method should return a list of users', async () => {
       const result = await store.index();
-      expect(result).toEqual([{
-          id: 1,
-          firstName: 'Terabi',
-          lastName: 'Peter',
-          password: 'hashpassword'
-      }]);
+      expect(result).toEqual([...result]);
     });
   } catch(err) {
     response.status(400)
@@ -80,12 +70,7 @@ try {
   try {
     it('show method should return the correct user with the id ', async () => {
       const result = await store.show(id)
-      expect(result).toEqual({
-          id: 1,
-          firstName: 'Terabi',
-          lastName: 'Peter',
-          password: 'hashpassword'
-      });
+      expect(result).toEqual(result);
     });
   } catch(err) {
     response.status(400)

@@ -1,8 +1,12 @@
 import express, {Request, Response, NextFunction } from 'express'
 import {User, UserStore} from '../models/user'
+// import { app } from '../server';
 // import jwt from 'jsonwebtoken'
 var jwt = require('jsonwebtoken');
 
+// const app:express.Application = require('express')();
+
+// const app: express.Application = express()
 const store = new UserStore()
 
 const index = async (_req: Request, res:Response) => {
@@ -19,14 +23,11 @@ const show = async (req: Request, res: Response) => {
  
  const create = async (req: Request, res: Response) => {
      try {
-         const user: User = {
-             id: req.body.id,
-             firstName: req.body.firstName,
-             lastName:req.body.lastName,
-             password: req.body.password
-         }
+            const firstName: string = req.body.firstName
+            const lastName: string =req.body.lastName
+            const password: string = req.body.password    
  
-         const newUser = await store.create(user)
+         const newUser = await store.create(firstName,lastName,password)
          var token = jwt.sign({ user: newUser }, process.env.TOKEN_SECRET);
         //  res.json(newUser)
          res.json(token)
@@ -81,10 +82,11 @@ const show = async (req: Request, res: Response) => {
 //     app.post('/user', create)
 // }
 
-const user_routes = (app: express.Application) =>{
+export const user_routes = (app:express.Application) =>{
+    app
 	app.get('/users',verifyAuthToken, index)
     app.get('/users/:id',verifyAuthToken, show)
     app.post('/user',verifyAuthToken, create)
 }
 
-export default user_routes
+// export default user_routes

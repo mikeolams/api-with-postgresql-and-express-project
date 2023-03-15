@@ -17,7 +17,7 @@ const show = async (req: Request, res:Response) => {
         const orderedProducts = await store.show(userId)
         res.json(orderedProducts)
     } catch(err) {
-        res.status(400)
+        res.status(500)
         res.json(err)
     }
 }
@@ -27,7 +27,7 @@ const index = async (_req: Request, res:Response) => {
         const orders = await store.index()
         res.json(orders)
     } catch(err) {
-        res.status(400)
+        res.status(500)
         res.json(err)
     }
 }
@@ -43,17 +43,16 @@ const showCompleteOrder = async (req: Request, res: Response) => {
 
  const create = async (req: Request, res: Response) => {
     try {
-        const order: Order = {
-            id: req.body.id,
-            userId:req.body.userId,
-            // quantityOrder: req.body.quantityOrder,
-            orderStatus:req.body.orderStatus
-        }
+       
+        const userId: number = parseInt(req.body.userId)
+        const orderStatus: string = req.body.orderStatus 
+        const quantityOrder: number = req.body.quantityOrder
+       
 
-        const newOrder = await store.createOrder(order)
+        const newOrder = await store.createOrder(userId, quantityOrder, orderStatus)
         res.json(newOrder)
     } catch(err) {
-        res.status(400)
+        res.status(500)
         res.json(err)
     }
 }
@@ -94,6 +93,7 @@ const addOrder = async (req: Request, res: Response) => {
  
 
 export const order_routes = (app: express.Application) =>{
+    // app = express();
 	app.get('/orders/',verifyAuthToken, index)
 	app.get('/orders/product/user/:id',verifyAuthToken, show)
     app.get('/orders/products/user/:id',verifyAuthToken, showCompleteOrder)
